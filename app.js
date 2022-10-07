@@ -25,9 +25,11 @@ const HOST = process.env.HOST || "localhost";
 
 // Importing the required routes 
 const usersRoute = require("./routes/usersRoute"); 
+const transactionsRoute = require("./routes/transactionsRoute")
 
 // Setting the route configurations 
 app.use("/", usersRoute); 
+app.use("/api", transactionsRoute); 
 
 // Running the nodejs API 
 app.listen(PORT, HOST, () => {

@@ -2,6 +2,7 @@
 const express = require("express"); 
 const jwt = require("jsonwebtoken"); 
 const { db } = require("../database"); 
+const bcrypt = require("bcrypt"); 
 
 
 // Creating the router object 
@@ -21,7 +22,7 @@ router.post("/register", async (req, res) => {
     // database 
     let email = req.body["email"]; 
     let sql_statement = "SELECT firstname, lastname FROM users WHERE email=?"; 
-    await db.get(sql_statement, [email], (error, data) => {
+    db.get(sql_statement, [email], async (error, data) => {
 
         // if there is there is an error 
         if (error) {
@@ -41,10 +42,14 @@ router.post("/register", async (req, res) => {
             // Getting the request body 
             data = req.body; 
 
+            // Hashing the password 
+            let salt = await bcrypt.genSalt(5); 
+            let hashedPassword = await bcrypt.hash(data["password"], salt); 
+
             // Getting the whole data 
             data = [
                 data["firstname"], data["lastname"], 
-                data["age"], data["email"], data["password"],
+                data["age"], data["email"], hashedPassword,
                 data["account_balance"]
             ]; 
 
@@ -79,7 +84,7 @@ router.post("/register", async (req, res) => {
             })
         }
 
-        // Checking if the data is empty 
+        // Checking if the data is not empty 
         else if (data != undefined) {
             // If the data exists.  
             let errorMessage = {
