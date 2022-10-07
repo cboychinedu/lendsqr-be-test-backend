@@ -32,6 +32,6 @@ app.use("/", usersRoute);
 // Running the nodejs API 
 app.listen(PORT, HOST, () => {
     // Setting the server message 
-    let serverMessage = chalk.bgMagenta(`The server is running on ${HOST + ":" + PORT}`); 
+    let serverMessage = chalk.magentaBright(`The server is running on ${HOST + ":" + PORT}`); 
     console.log(serverMessage); 
 })
