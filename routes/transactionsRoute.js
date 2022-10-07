@@ -3,6 +3,9 @@ const express = require("express");
 const jwt = require("jsonwebtoken"); 
 const { db } = require("../database"); 
 const bcrypt = require("bcrypt"); 
+const { 
+    fundAccountFunction,
+    withdrawAccountFunction } = require('../algorithm/algorithm'); 
 
 // Creating the router object 
 const router = express.Router(); 

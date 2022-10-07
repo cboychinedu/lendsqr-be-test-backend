@@ -29,3 +29,7 @@ let withdrawAccountFunction = (accountBalance, fundWithdrawn) => {
         return newAccountBalance; 
     }
 }
+
+// Exporting both functions 
+module.exports.fundAccountFunction = fundAccountFunction; 
+module.exports.withdrawAccountFunction = withdrawAccountFunction; 
