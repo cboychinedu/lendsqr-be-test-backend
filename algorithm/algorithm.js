@@ -21,12 +21,19 @@ let withdrawAccountFunction = (accountBalance, fundWithdrawn) => {
 
     // Getting the result 
     if (accountBalance <= fundWithdrawn && accountBalance <= 1000.0 ) {
-        return "Insufficient funds"
+        return {
+            "status": "error", 
+            "message": "Insufficient funds"
+        }
     }
 
     else {
         let newAccountBalance = accountBalance - fundWithdrawn; 
-        return newAccountBalance; 
+        return {
+            "status": "success", 
+            "data": newAccountBalance, 
+            "message": "Successful transaction", 
+        } 
     }
 }
 
