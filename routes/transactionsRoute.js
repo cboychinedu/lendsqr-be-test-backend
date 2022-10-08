@@ -153,7 +153,9 @@ router.post("/update-funds", (req, res) => {
                         // Create a success message 
                         let successMessage = {
                             "status": "success", 
-                            "message": "Funds updated"
+                            "message": "Funds updated", 
+                            "amount": new_funds, 
+                            "balance": accountTotal, 
                         }
 
                         // Sending back the success message 
@@ -285,6 +287,7 @@ router.post("/transfer-funds", (req, res) => {
                                     let newSenderAccountBalance = fundAccountFunction(destination_data["account_balance"], destination["amountentering"]); 
 
                                     // Create an sql statement to update the funds for the sender account 
+                                    newSenderAccountBalance = String(newSenderAccountBalance); 
                                     let updatedData = [newSenderAccountBalance, destination["emailAddress"]]; 
                                     sql_statement = "UPDATE users SET account_balance=? WHERE email=?"; 
                                     db.run(sql_statement, updatedData, (error) => {
@@ -306,7 +309,8 @@ router.post("/transfer-funds", (req, res) => {
                                             // Create a success message 
                                             let successMessage = {
                                                 "status": "success", 
-                                                "message": "Transfer successful"
+                                                "message": "Transfer successful", 
+                                                "amountSent": destination["amountentering"]
                                             }
 
                                             // Sending back the success message 
@@ -334,8 +338,110 @@ router.post("/transfer-funds", (req, res) => {
 
 // Creating a route for withdrawing funds from an account
 router.post("/withdraw-funds", (req, res) => {
-    //
-    return res.send("<h2> Withdraw funds from account </h2>")
+    // Getting the emal, password, and amount to be withdrawn 
+    let email = req.body.email; 
+    let password = req.body.password; 
+    let amount = req.body.amount || 0.00; 
+
+    // Verifying if the user exists on the database 
+    let sql_statement = "SELECT firstname, lastname, password, account_balance FROM users WHERE email=?"; 
+    db.get(sql_statement, [email], async (error, data) => {
+        // If there is an error 
+        if (error) {
+            // Build the error message 
+            let errorMessage = {
+                "status": "error", 
+                "message": "Error connecting to the database"
+            }; 
+
+            // Sending the error message 
+            return res.send(errorMessage); 
+        }
+
+        // Else if the data is undefined 
+        else if (data === undefined) {
+            // This means that the user is not registered 
+            let errorMessage = {
+                "status": "error", 
+                "message": "User not found"
+            }; 
+
+            // Sending the error message 
+            return res.send(errorMessage); 
+        }
+
+        // Else if the data is not empty 
+        else if (data != undefined) {
+            // If the user exists on the server, verify the hashed password 
+            let hashedPassword = data["password"]; 
+            let passwordCondition = await bcrypt.compare(password, hashedPassword); 
+
+            // Checking if the condition resolved to true or false 
+            if (passwordCondition) {
+                // Deduct the amount from the account total 
+                let accountBalance = data["account_balance"] || 0.00; 
+                let accountTotal = withdrawAccountFunction(accountBalance, amount); 
+
+                // Checking if the money deduction was validated
+                if (accountTotal["status"] === "success") {
+                    // Execute this block of code if the deduction was successful 
+                    // Create an sql statement to update the funds for the specified account 
+                    let newAccountBalance = String(accountTotal["newAccountBalance"]); 
+                    let updatedData = [newAccountBalance, email] 
+                    sql_statement = "UPDATE users SET account_balance=? WHERE email=?"; 
+                    db.run(sql_statement, updatedData, (error) => {
+                        // If there is an error 
+                        if (error) {
+                            // Log the error 
+                            // Building the error message 
+                            let errorMessage = JSON.stringify({
+                                "status": "error", 
+                                "message": "Error connecting to the database"
+                            }); 
+
+                            // Sending the message 
+                            return res.send(errorMessage); 
+                        }
+
+                        // Else if there was successful updating 
+                        else {
+                            // Create the success message 
+                            let successMessage = {
+                                "status": "success", 
+                                "message": "Funds Withdrawn", 
+                                "Amount": amount, 
+                                "Account Balance": accountTotal["newAccountBalance"]
+                            }
+
+                            // Sending back the success message 
+                            return res.send(successMessage); 
+                        }
+                    })
+
+                }
+
+                // Else if the funds is insufficient 
+                else if (accountTotal["status"] === "error") {
+                    // Get the error message 
+                    return res.send(accountTotal); 
+                }
+            }
+
+            // Else if the password was not correct 
+            else {
+                // Execute the block of code if the password given was 
+                // not correct 
+                // Build the error message 
+                let errorMessage = {
+                    "status": "error", 
+                    "message": "Incorrect username or password", 
+                }
+
+                // Sending the result back to the user 
+                return res.send(errorMessage); 
+            }
+        }
+    })
 })
 
 

@@ -45,12 +45,12 @@ router.post("/register", async (req, res) => {
             // Hashing the password 
             let salt = await bcrypt.genSalt(5); 
             let hashedPassword = await bcrypt.hash(data["password"], salt); 
-
+            let account_balance = data["account_balance"] || 0.00; 
             // Getting the whole data 
             data = [
                 data["firstname"], data["lastname"], 
                 data["age"], data["email"], hashedPassword,
-                data["account_balance"]
+                account_balance
             ]; 
 
             // Inserting into the table 
@@ -63,7 +63,7 @@ router.post("/register", async (req, res) => {
                     // Build the error message 
                     let errorMessage = {
                         "status": "Error", 
-                        "message": "Error adding a row", 
+                        "message": "Error adding user", 
                     }; 
 
                     // Sending the error message 
@@ -75,7 +75,7 @@ router.post("/register", async (req, res) => {
                     // Execute the block of code below 
                     let successMessage = {
                         "status": "Success", 
-                        "message": "1 row added", 
+                        "message": "User added", 
                     }; 
 
                     // Sending the success message 

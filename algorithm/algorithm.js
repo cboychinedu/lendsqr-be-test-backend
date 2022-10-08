@@ -8,6 +8,9 @@ let fundAccountFunction = (accountBalance, fundAmount) => {
     // Creating the new account balance
     let newAccountBalance = accountBalance + fundAmount;
 
+    // Converting the result back to a string 
+    newAccountBalance = String(newAccountBalance); 
+
     // Returning the new account balance
     return newAccountBalance;
 }
@@ -28,7 +31,12 @@ let withdrawAccountFunction = (accountBalance, fundWithdrawn) => {
     }
 
     else {
+        // Getting the new account balance, and convert it back 
+        // into a string 
         let newAccountBalance = accountBalance - fundWithdrawn;
+        newAccountBalance = String(newAccountBalance); 
+
+        // Returning the results 
         return {
             "status": "success",
             "newAccountBalance": newAccountBalance,
