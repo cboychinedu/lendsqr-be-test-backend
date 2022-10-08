@@ -136,7 +136,7 @@ when specifying other parameters </p>
 
 <br> <br>
 
-## View A User Funds 
+## View User Funds 
 
 <br> 
 
@@ -168,10 +168,41 @@ To view a registered user account details, access the following link using a <b>
 ### Click the image below to see it clearly  
 <img src="./images/view_funds.png">
 
+<br> 
 
-
+## Fund A User Account 
 
 <br> 
+
+<p> 
+<b> POST REQUEST </b> url: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/update-funds 
+
+<br> 
+
+To fund a registered user account, access the following link using a <b> POST </b> HTTP request on your <b> POSTMAN </b> or <b> CURL </b>. Then specify the following paramters as a json object format, and they are: 
+
+</p> 
+
+```json 
+
+{
+    "email": "your-email-address", 
+    "password": "your-password", 
+    "amount": "the-fund-amount", 
+    "status": "fund_account"
+}
+
+```
+
+<br>
+
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "fund_account" </b>. The reason for this is for the logging function to log the transaction as a funding transaction. </p>
+
+<br> 
+<p> The image below explains how to perform a <b> POST </b> request to fund a user's account with a specified amount value </p> <br> 
+
+### Click on the image below to see it clearly 
+<img src="./images/fund_account.png" alt="fund_account">
 
 ## Download And Installation 
 <p> 
