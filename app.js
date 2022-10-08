@@ -9,19 +9,21 @@ const chalk = require("chalk");
 const app = express(); 
 
 // Setting some necessary middlewares 
-app.use(cookieParser())
-app.use(bodyParser())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(morgan('tiny'))
+app.use(cookieParser()); 
+app.set('port', (process.env.PORT || 5000)); 
+app.use(bodyParser()); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(morgan('tiny')); 
 
 // Setting the views 
 app.set("view engine", "ejs"); 
 app.set("views", "./views"); 
 
 // Setting the static ip address and port 
-const PORT = process.env.PORT || 3001; 
-const HOST = process.env.HOST || "localhost"; 
+// const PORT = process.env.PORT || 3001; 
+const PORT = process.env.PORT; 
+const HOST = process.env.HOST || "0.0.0.0"; 
 
 // Importing the required routes 
 const usersRoute = require("./routes/usersRoute"); 

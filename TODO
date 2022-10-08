@@ -5,3 +5,8 @@ A user can create an account
 A user can fund their account
 A user can transfer funds to another user’s account
 A user can withdraw funds from their account.
+
+
+## Submission Mode 
+Deploy the API on Heroku or any free hosting cloud  
+server using the following url path https://<candidate-name>-lendsqr-be-test.<cloud-platform-domain>
