@@ -138,7 +138,14 @@ router.post("/update-funds", (req, res) => {
                     // If there is an error 
                     if (error) {
                         // Log the error 
-                        console.log(error); 
+                        // Building the error message 
+                        let errorMessage = JSON.stringify({
+                            "status": "error", 
+                            "message": "Error connecting to the database"
+                        }); 
+
+                        // Sending the message 
+                        return res.send(errorMessage); 
                     }
 
                     // else 
@@ -262,8 +269,14 @@ router.post("/transfer-funds", (req, res) => {
                             db.run(sql_statement, updatedData, (error) => {
                                 // If there is an error 
                                 if (error) {
-                                    // Log the error 
-                                    console.log(error); 
+                                    // Building the error message 
+                                    let errorMessage = {
+                                        "status": "error", 
+                                        "message": "Error connecting to the database", 
+                                    }; 
+
+                                    // Sending the error message 
+                                    return res.send(errorMessage);  
                                 }
 
                                 // Else if the connectin was successful 
@@ -277,8 +290,14 @@ router.post("/transfer-funds", (req, res) => {
                                     db.run(sql_statement, updatedData, (error) => {
                                         // If there is an error 
                                         if (error) {
-                                            // Log the error 
-                                            console.log(error); 
+                                            // Building the error message 
+                                            let errorMessage = {
+                                                "status": "error", 
+                                                "message": "Error connecting to the database", 
+                                            }; 
+
+                                            // Sending the error message 
+                                            return res.send(errorMessage); 
 
                                         }
 
@@ -305,15 +324,11 @@ router.post("/transfer-funds", (req, res) => {
                         }
                     }
                 })
-
-
                 
             }
             
         }
     })
-
-
 
 })
 
