@@ -87,9 +87,49 @@ Below is the diagram explaining how this application works.
 
 ## Working Principle 
 
-<p> 
 
-</p> 
+<p> 
+Inorder to understand how this application works, you need to download postman or curl on you desktop or laptop pc and follow the instructions below. <br> 
+
+The first step is to register a user on the application programming interface, and to do that keep on reading this readme file. 
+
+</p>  <br> 
+
+## Register A User 
+
+<br> 
+
+<p>
+
+<b> POST-URL:</b>  https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/ 
+
+<br> 
+
+To register a user access the following link using a <b> POST </b> http request on your postman. And specify the following parameters in a json format which are: 
+
+</p>
+
+```json
+{
+    "firstname": "your-firstname", 
+    "lastname": "your-lastname",
+    "age": "your-age",
+    "email": "your-email", 
+    "password": "your-password", 
+    "account_balance": "the-starting-account-balance",
+    "status": "create_account"
+}
+
+```
+
+<p> <strong> N/B: </strong> Leave the status field as "create_account", 
+when specifying other parameters </p> 
+
+<br> 
+<p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
+
+<img src="./images/create_account.png">
+
 
 
 
@@ -111,7 +151,24 @@ Below is the diagram explaining how this application works.
 
 <br>
 
+## Database (SQLite3) management(Preference) 
+<p> 
+
+</p> 
+
+
+<br>
+
 ## Hosting The Application on Heroku 
+<p> 
+
+
+</p>
+
+
+<br>
+
+## Logging The Transactions And Errors 
 <p> 
 
 
