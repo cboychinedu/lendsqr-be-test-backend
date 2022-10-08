@@ -129,6 +129,7 @@ when specifying other parameters </p>
 <br> 
 <p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
 
+### Click the image below to see it clearly  
 <img src="./images/create_account.png">
 
 
@@ -164,6 +165,7 @@ To view a registered user account details, access the following link using a <b>
 <br> 
 <p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
 
+### Click the image below to see it clearly  
 <img src="./images/view_funds.png">
 
 
