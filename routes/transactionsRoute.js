@@ -1,17 +1,23 @@
 // Importing the necessary modules
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { db } = require("../database");
+const { 
+    db, 
+    errorLogger, 
+    loggingRequest, 
+    successfulTransaction
+} = require("../database");
 const bcrypt = require("bcrypt");
 const {
     fundAccountFunction,
-    withdrawAccountFunction } = require('../algorithm/algorithm');
+    withdrawAccountFunction 
+} = require('../algorithm/algorithm');
 
 // Creating the router object
 const router = express.Router();
 
 // Creating the first route
-router.post("/get-funds", async (req, res) => {
+router.post("/get-funds", loggingRequest, async (req, res) => {
     // Getting the email, and password
     let email = req.body.email;
     let password = req.body.password;
@@ -21,6 +27,9 @@ router.post("/get-funds", async (req, res) => {
     db.get(sql_statement, [email], async(error, data) => {
         // If there is an error
         if (error) {
+            // Logging the error 
+            errorLogger(error, req, res); 
+
             // Building the error message
             let errorMessage = {
                 "status": "error",
@@ -39,6 +48,9 @@ router.post("/get-funds", async (req, res) => {
                 "status": "error",
                 "message": "User not found"
             }
+
+            // Logging the error 
+            errorLogger(errorMessage["message"], req, res); 
 
             // Sending the error message
             return res.send(errorMessage);
@@ -60,6 +72,9 @@ router.post("/get-funds", async (req, res) => {
                     "accountBalance": data["account_balance"]
                 }
 
+                // Logging the success message 
+                successfulTransaction(req, res); 
+
                 // Sending the result back to the user
                 return res.send(successMessage);
             }
@@ -72,6 +87,9 @@ router.post("/get-funds", async (req, res) => {
                     "message": "Incorrect username or password",
                 }
 
+                // Logging the error message 
+                errorLogger(errorMessage["message"], req, res); 
+
                 // Sending the result back to the user
                 return res.send(errorMessage);
             }
@@ -82,7 +100,7 @@ router.post("/get-funds", async (req, res) => {
 })
 
 // Creating route for updating the account balance
-router.post("/update-funds", (req, res) => {
+router.post("/update-funds", loggingRequest, async(req, res) => {
     // Getting the email, and password
     let email = req.body.email;
     let password = req.body.password;
@@ -93,6 +111,9 @@ router.post("/update-funds", (req, res) => {
     db.get(sql_statement, [email], async (error, data) => {
         // If there is an error
         if (error) {
+            // Logging the error 
+            errorLogger(error, req, res); 
+
             // Build the error messsage
             let errorMessage = {
                 "status": "error",
@@ -110,6 +131,9 @@ router.post("/update-funds", (req, res) => {
                 "status": "error",
                 "message": "User not found"
             }
+
+            // Logging the error message 
+            errorLogger(errorMessage["message"], req, res); 
 
             // Return the error message
             return res.send(errorMessage);
@@ -138,6 +162,8 @@ router.post("/update-funds", (req, res) => {
                     // If there is an error 
                     if (error) {
                         // Log the error 
+                        errorLogger(error, req, res); 
+
                         // Building the error message 
                         let errorMessage = JSON.stringify({
                             "status": "error", 
@@ -158,6 +184,9 @@ router.post("/update-funds", (req, res) => {
                             "balance": accountTotal, 
                         }
 
+                        // Logging the success message 
+                        successfulTransaction(req, res); 
+
                         // Sending back the success message 
                         return res.send(successMessage); 
                     }
@@ -172,6 +201,9 @@ router.post("/update-funds", (req, res) => {
                     "message": "Incorrect username or password", 
                 }
 
+                // Logging the error message 
+                errorLogger(errorMessage["message"], req, res); 
+
                 // Sending the result back to the user 
                 return res.send(errorMessage); 
             }
@@ -180,7 +212,7 @@ router.post("/update-funds", (req, res) => {
 })
 
 // Creating a route for transferring funds to another account
-router.post("/transfer-funds", (req, res) => {
+router.post("/transfer-funds", loggingRequest, async (req, res) => {
     // Getting the data for destination and sender 
     let destination = {
         "emailAddress": req.body.destination_email,
@@ -198,6 +230,9 @@ router.post("/transfer-funds", (req, res) => {
     db.get(sql_statement, [sender["emailAddress"]], async(error, sender_data) => {
         // If there is an error 
         if (error) {
+            // Logging the error 
+            errorLogger(error, req, res); 
+
             // Building the error message 
             let errorMessage = {
                 "status": "error", 
@@ -216,6 +251,9 @@ router.post("/transfer-funds", (req, res) => {
                 "status": "error", 
                 "message": "User not found"
             }; 
+
+            // Logging the error 
+            errorLogger(errorMessage["message"], req, res); 
 
             // Sending the error message 
             return res.send(errorMessage); 
@@ -238,8 +276,12 @@ router.post("/transfer-funds", (req, res) => {
                         // Building the error message 
                         let errorMessage = {
                             "status": "error", 
-                            "message": "Destination email not found on the server"
+                            "message": "Error connecting to the database"
                         }; 
+
+                        // Log the error 
+                        errorLogger(error, req, res); 
+                        errorLogger(errorMessage["message"], req, res); 
 
                         // Sending the error message 
                         return res.send(errorMessage); 
@@ -250,8 +292,11 @@ router.post("/transfer-funds", (req, res) => {
                         // This means that the user is not registered, build a response message 
                         let errorMessage = {
                             "status": "error", 
-                            "message": "Destination user not found on the server", 
+                            "message": "Destination email not found on the server", 
                         }; 
+
+                        // Log the error 
+                        errorLogger(errorMessage["message"], req, res); 
 
                         // Sending the error message 
                         return res.send(errorMessage); 
@@ -277,6 +322,9 @@ router.post("/transfer-funds", (req, res) => {
                                         "message": "Error connecting to the database", 
                                     }; 
 
+                                    // Logging the error 
+                                    errorLogger(error, req, res); 
+
                                     // Sending the error message 
                                     return res.send(errorMessage);  
                                 }
@@ -299,6 +347,9 @@ router.post("/transfer-funds", (req, res) => {
                                                 "message": "Error connecting to the database", 
                                             }; 
 
+                                            // Logging the error 
+                                            errorLogger(error, req, res); 
+
                                             // Sending the error message 
                                             return res.send(errorMessage); 
 
@@ -313,6 +364,9 @@ router.post("/transfer-funds", (req, res) => {
                                                 "amountSent": destination["amountentering"]
                                             }
 
+                                            // Logging the success message 
+                                            successfulTransaction(req, res); 
+
                                             // Sending back the success message 
                                             return res.send(successMessage); 
                                         }
@@ -323,6 +377,9 @@ router.post("/transfer-funds", (req, res) => {
 
                         // Else 
                         else if (deductedValues["status"] === "error") {
+                            // Logging the error 
+                            errorLogger(deductedValues["message"], req, res); 
+
                             // Get the error message 
                             return res.send(deductedValues)
                         }
@@ -337,7 +394,7 @@ router.post("/transfer-funds", (req, res) => {
 })
 
 // Creating a route for withdrawing funds from an account
-router.post("/withdraw-funds", (req, res) => {
+router.post("/withdraw-funds", loggingRequest, async (req, res) => {
     // Getting the emal, password, and amount to be withdrawn 
     let email = req.body.email; 
     let password = req.body.password; 
@@ -348,6 +405,9 @@ router.post("/withdraw-funds", (req, res) => {
     db.get(sql_statement, [email], async (error, data) => {
         // If there is an error 
         if (error) {
+            // Logging the error 
+            errorLogger(error, req, res); 
+
             // Build the error message 
             let errorMessage = {
                 "status": "error", 
@@ -365,6 +425,9 @@ router.post("/withdraw-funds", (req, res) => {
                 "status": "error", 
                 "message": "User not found"
             }; 
+
+            // Logging the error 
+            errorLogger(errorMessage["message"], req, res); 
 
             // Sending the error message 
             return res.send(errorMessage); 
@@ -393,6 +456,8 @@ router.post("/withdraw-funds", (req, res) => {
                         // If there is an error 
                         if (error) {
                             // Log the error 
+                            errorLogger(error, req, res); 
+
                             // Building the error message 
                             let errorMessage = JSON.stringify({
                                 "status": "error", 
@@ -413,6 +478,9 @@ router.post("/withdraw-funds", (req, res) => {
                                 "Account Balance": accountTotal["newAccountBalance"]
                             }
 
+                            // Logging the successful transaction 
+                            successfulTransaction(req, res); 
+
                             // Sending back the success message 
                             return res.send(successMessage); 
                         }
@@ -422,6 +490,9 @@ router.post("/withdraw-funds", (req, res) => {
 
                 // Else if the funds is insufficient 
                 else if (accountTotal["status"] === "error") {
+                    // Logging the error 
+                    errorLogger(accountTotal["message"], req, res); 
+
                     // Get the error message 
                     return res.send(accountTotal); 
                 }
@@ -436,6 +507,9 @@ router.post("/withdraw-funds", (req, res) => {
                     "status": "error", 
                     "message": "Incorrect username or password", 
                 }
+
+                // Logging the error 
+                errorLogger(errorMessage["message"], req, res); 
 
                 // Sending the result back to the user 
                 return res.send(errorMessage); 

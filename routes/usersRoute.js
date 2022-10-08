@@ -1,7 +1,12 @@
 // Importing the necessary modules 
 const express = require("express"); 
 const jwt = require("jsonwebtoken"); 
-const { db } = require("../database"); 
+const { 
+    db, 
+    errorLogger, 
+    loggingRequest, 
+    successfulTransaction
+} = require("../database"); 
 const bcrypt = require("bcrypt"); 
 
 
@@ -15,7 +20,7 @@ router.get("/", (req, res) => {
 })
 
 // Creating the route for registering users 
-router.post("/register", async (req, res) => {
+router.post("/register", loggingRequest, async (req, res) => {
     // Getting the user email 
     // Setting the sql statement and check if the user 
     // witht the specified email address already exists on the 
@@ -26,7 +31,9 @@ router.post("/register", async (req, res) => {
 
         // if there is there is an error 
         if (error) {
-            console.log(error)
+            // Logging the error 
+            errorLogger(error, req, res); 
+
             // Building the error message 
             let errorMessage = JSON.stringify({
                 "status": "error", 
@@ -60,6 +67,9 @@ router.post("/register", async (req, res) => {
             db.run(sql_statement, data, (error) => {
                 // if there is an error in connection 
                 if (error) {
+                    // Log the error 
+                    errorLogger(error, req, res); 
+
                     // Build the error message 
                     let errorMessage = {
                         "status": "Error", 
@@ -78,6 +88,9 @@ router.post("/register", async (req, res) => {
                         "message": "User added", 
                     }; 
 
+                    // Logging the successful transaction
+                    successfulTransaction(req, res); 
+
                     // Sending the success message 
                     return res.send(successMessage); 
                 }
@@ -92,6 +105,9 @@ router.post("/register", async (req, res) => {
                 "message": "User already exists", 
                 "data": [data]
             }
+
+            // Logging the error 
+            errorLogger(errorMessage["message"], req, res); 
 
             // Return the error message
             return res.send(errorMessage);
