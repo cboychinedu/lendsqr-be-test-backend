@@ -14,7 +14,7 @@
 
 <br>
 
-## State Of The Art Banking Application Programming Interface(API)
+## State Of The Art ""Banking"" Application Programming Interface(API)
 
 <br>
 
@@ -105,7 +105,7 @@ The first step is to register a user on the application programming interface, a
 
 <br> 
 
-To register a user access the following link using a <b> POST </b> http request on your 
+To register a user access the following link using a <b> POST </b> HTTP request on your 
 <b> POSTMAN </b>. And specify the following parameters in a json format which are: 
 
 </p>
@@ -160,7 +160,7 @@ To view a registered user account details, access the following link using a <b>
 
 <br>
 
-<p> <strong> N/B: </strong> When specifying the json object file above, leave the status field as <b> "view_fund" </b>. The reason for this is for the application to save the status when logging the transaction for every operation.
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the status field as <b> "view_funds" </b>. The reason for this is for the application to save the status when logging the transaction for every operation.
 
 <br> 
 <p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
