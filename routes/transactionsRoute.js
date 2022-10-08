@@ -86,7 +86,7 @@ router.post("/update-funds", (req, res) => {
     // Getting the email, and password
     let email = req.body.email;
     let password = req.body.password;
-    let new_funds = req.body.amount;
+    let new_funds = req.body.amount || 0.00;
 
     // Verifying if the user exists on the database
     let sql_statement = "SELECT firstname, lastname, password, email, account_balance FROM users WHERE email=?";
@@ -127,7 +127,8 @@ router.post("/update-funds", (req, res) => {
                 // If the password condition is true, execute the block of 
                 // code below 
                 // Get the total sum of the accountbalance and the fund amount 
-                let accountTotal = fundAccountFunction(data["account_balance"], new_funds)
+                let accountBalance = data["account_balance"] || "0.00"; 
+                let accountTotal = fundAccountFunction(accountBalance, new_funds)
 
                 // Create an sql statement to update the funds for the 
                 // specified account
@@ -185,7 +186,7 @@ router.post("/transfer-funds", (req, res) => {
 
     // Checking if the sender-user exists on the database 
     let sql_statement = "SELECT firstname, lastname, password, account_balance FROM users WHERE email=?"; 
-    db.get(sql_statement, [sender["emailAddress"]], async(error, data) => {
+    db.get(sql_statement, [sender["emailAddress"]], async(error, sender_data) => {
         // If there is an error 
         if (error) {
             // Building the error message 
@@ -199,7 +200,7 @@ router.post("/transfer-funds", (req, res) => {
         }
 
         // Else if the data is undefined 
-        else if (data === undefined) {
+        else if (sender_data === undefined) {
             // This means that the user is not registered, build 
             // a response message 
             let errorMessage = {
@@ -212,17 +213,98 @@ router.post("/transfer-funds", (req, res) => {
         }
 
         // Else if the data is not empty 
-        else if (data != undefined) {
+        else if (sender_data != undefined) {
             // If the user exists on the server, hash the password and 
             // verify 
-            let hashedPassword = data["password"]; 
+            let hashedPassword = sender_data["password"]; 
             let passwordCondition = await bcrypt.compare(sender["password"], hashedPassword); 
 
             // Checking if the condition resolves to true, or false 
             if (passwordCondition) {
-                // If the password is correct 
-                // Deduct the amount leaving from the sender account 
-                // Add the amount to the receiver account 
+                // If the password is correct, check if the receiver email is on the database 
+                let sql_statement = "SELECT firstname, lastname, account_balance FROM users WHERE email=?"; 
+                db.get(sql_statement, [destination["emailAddress"]], async (error, destination_data) => {
+                    // If there is an error 
+                    if (error) {
+                        // Building the error message 
+                        let errorMessage = {
+                            "status": "error", 
+                            "message": "Destination email not found on the server"
+                        }; 
+
+                        // Sending the error message 
+                        return res.send(errorMessage); 
+                    }
+
+                    // ELse if the data is undefined 
+                    else if (destination_data === undefined) {
+                        // This means that the user is not registered, build a response message 
+                        let errorMessage = {
+                            "status": "error", 
+                            "message": "Destination user not found on the server", 
+                        }; 
+
+                        // Sending the error message 
+                        return res.send(errorMessage); 
+                    }
+
+                    // Else if the data is not empty 
+                    else if (destination_data != undefined) {
+                        // Deduct the amount leaving the sender account 
+                        let deductedValues = withdrawAccountFunction(sender_data["account_balance"], sender["amountleaving"])
+
+                        // Checking if the money deduction was correct 
+                        if (deductedValues["status"] === "success") {
+                            // Execute this block of code if the deduction was successful 
+                            // Create an sql statement to save the deducted value into the sender account 
+                            let updatedData = [deductedValues["newAccountBalance"], sender["emailAddress"]]
+                            let sql_statement = "UPDATE users SET account_balance=? WHERE email=?"; 
+                            db.run(sql_statement, updatedData, (error) => {
+                                // If there is an error 
+                                if (error) {
+                                    // Log the error 
+                                    console.log(error); 
+                                }
+
+                                // Else if the connectin was successful 
+                                else {
+                                    // Update the receiver account
+                                    let newSenderAccountBalance = fundAccountFunction(destination_data["account_balance"], destination["amountentering"]); 
+
+                                    // Create an sql statement to update the funds for the sender account 
+                                    let updatedData = [newSenderAccountBalance, destination["emailAddress"]]; 
+                                    sql_statement = "UPDATE users SET account_balance=? WHERE email=?"; 
+                                    db.run(sql_statement, updatedData, (error) => {
+                                        // If there is an error 
+                                        if (error) {
+                                            // Log the error 
+                                            console.log(error); 
+
+                                        }
+
+                                        // Else 
+                                        else {
+                                            // Create a success message 
+                                            let successMessage = {
+                                                "status": "success", 
+                                                "message": "Transfer successful"
+                                            }
+
+                                            // Sending back the success message 
+                                            return res.send(successMessage); 
+                                        }
+                                    })
+                                }
+                            })
+                        }
+
+                        // Else 
+                        else if (deductedValues["status"] === "error") {
+                            // Get the error message 
+                            return res.send(deductedValues)
+                        }
+                    }
+                })
 
 
                 
