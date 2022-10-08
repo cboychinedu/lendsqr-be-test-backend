@@ -101,11 +101,12 @@ The first step is to register a user on the application programming interface, a
 
 <p>
 
-<b> POST-URL:</b>  https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/register
+<b> POST REQUEST:</b> url:  https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/register
 
 <br> 
 
-To register a user access the following link using a <b> POST </b> http request on your <b> postman</b>. And specify the following parameters in a json format which are: 
+To register a user access the following link using a <b> POST </b> http request on your 
+<b> POSTMAN </b>. And specify the following parameters in a json format which are: 
 
 </p>
 
@@ -129,6 +130,41 @@ when specifying other parameters </p>
 <p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
 
 <img src="./images/create_account.png">
+
+
+
+<br> <br>
+
+## View A User Funds 
+
+<br> 
+
+<p>
+<b> POST REQUEST</b> url: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/get-funds
+
+<br> 
+
+To view a registered user account details, access the following link using a <b> POST </b> HTTP request on your <b> POSTMAN </b>. Then specify the following parameters in a json object format which are: <br> 
+
+</p>
+
+```json 
+{
+    "email": "your-registered-email", 
+    "password": "your-password", 
+    "status": "view_funds"
+}
+
+```
+
+<br>
+
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the status field as <b> "view_fund" </b>. The reason for this is for the application to save the status when logging the transaction for every operation.
+
+<br> 
+<p> The image below explains how to perform a <b> POST </b> request to the register route </p> <br> 
+
+<img src="./images/view_funds.png">
 
 
 
