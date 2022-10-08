@@ -101,11 +101,11 @@ The first step is to register a user on the application programming interface, a
 
 <p>
 
-<b> POST-URL:</b>  https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/ 
+<b> POST-URL:</b>  https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/register
 
 <br> 
 
-To register a user access the following link using a <b> POST </b> http request on your postman. And specify the following parameters in a json format which are: 
+To register a user access the following link using a <b> POST </b> http request on your <b> postman</b>. And specify the following parameters in a json format which are: 
 
 </p>
 
@@ -122,7 +122,7 @@ To register a user access the following link using a <b> POST </b> http request 
 
 ```
 
-<p> <strong> N/B: </strong> Leave the status field as "create_account", 
+<p> <strong> N/B: </strong> Leave the status field as <b> "create_account" </b>, 
 when specifying other parameters </p> 
 
 <br> 
