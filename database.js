@@ -166,6 +166,7 @@ let db = new sqlite3.Database("mydb.db", (error) => {
 })
 
 // Exporting the database 
+module.exports.root_path = root_path; 
 module.exports.db = db; 
 module.exports.errorLogger = errorLogger; 
 module.exports.loggingRequest = loggingRequest; 

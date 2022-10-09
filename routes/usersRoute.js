@@ -1,11 +1,13 @@
 // Importing the necessary modules 
+const path = require("path"); 
 const express = require("express"); 
 const jwt = require("jsonwebtoken"); 
 const { 
     db, 
     errorLogger, 
     loggingRequest, 
-    successfulTransaction
+    successfulTransaction,
+    root_path
 } = require("../database"); 
 const bcrypt = require("bcrypt"); 
 
@@ -15,8 +17,12 @@ const router = express.Router();
 
 // Creating the first api route 
 router.get("/", (req, res) => {
+    // Getting the full path to the home url 
+    let full_path = path.join(root_path, 'static', 'templates', 'home.ejs')
+
     // Rendering static data for now 
-    return res.send("<h2> Hello from Nodejs </h2>")
+    return res.render(full_path); 
+
 })
 
 // Creating the route for registering users 
