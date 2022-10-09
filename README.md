@@ -123,6 +123,20 @@ To register a user access the following link using a <b> POST </b> HTTP request 
 
 ```
 
+<p> The following parameters could be explained in more details: 
+<ul>
+<li> The <b>firstname</b>: This is your firstname you want to use when registering the account. </li> 
+<li> The <b>lastname</b>: This is your lastname you want to use for registration </li> 
+<li> The <b> age </b>: This is the age of the user. </li> 
+<li> The <b> password </b>: The password of the user | the password used for creating the account. </li> 
+<li> The <b> account_balance </b>: The starting account balance value, this could be 0.00, or 2500. <br> <b>N/B:</b> When specifying the account value, specify the value as numbers, and commas should not be included as values e.g 2,500 is not allowed for the account balance. Use only number and floating point values, <b>Commas are not allowed </b> </li>
+<li> The <b> status </b>: This is the instruction given to the logging module telling it that the transaction in progress is a "create_account" transaction. And as such, this section should be left as it is for easy logging and saving the respective transaction. </li> 
+
+
+</ul>
+
+</p>
+
 <p> <strong> N/B: </strong> Leave the status field as <b> "create_account" </b>, 
 when specifying other parameters </p> 
 
@@ -203,6 +217,42 @@ To fund a registered user account, access the following link using a <b> POST </
 
 ### Click on the image below to see it clearly 
 <img src="./images/fund_account.png" alt="fund_account">
+
+<br> 
+
+## Transfer Funds From One Account To Another 
+
+<br> 
+
+<p>
+<b> POST REQUEST </b> url: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/transfer-funds 
+
+<br> 
+
+To transfer funds from one user account to another, you need to access the following link above on your <b> POSTMAN </b> or <b> CURL </b> using a <b> POST </b> request by specifying the following parameters in a json format. 
+Also note that you need to specify the correct values, e.g the password, the sender email, and the destination email address. <br> 
+
+Failure to specify the correct values would result in an error for the transaction. 
+</p>
+
+```json 
+
+{
+    "sender_email": "the-email-the-funds-are-leaving", 
+    "sender_password": "sender-password", 
+    "amount": "the-amount-you-are-sending",
+    "destination_email": "the-receiver-email-address", 
+    "status": "transfer_funds" 
+}
+
+```
+
+<br> 
+
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "transfer_funds" </b>. The reason for this is for the loggin function to log the transaction as a transfer of funds transaction. </p> 
+
+
+
 
 ## Download And Installation 
 <p> 
