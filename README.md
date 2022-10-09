@@ -172,6 +172,18 @@ To view a registered user account details, access the following link using a <b>
 
 ```
 
+<p> The following parameters could be explained in more details below: 
+<ul>
+<li> The <b> email </b>: This is the email address you used to register on the register route </li> 
+<li> The <b> password </b>: This is the password of the user | the password you used during registration </li> 
+<li> The <b> status </b> : This is the instruction given to the logging module, telling it that the transaction which is in progress 
+is a "view_funds" transaction. And as such, this field should not be changed, it should be left as it is for easy logging and saving of the respective 
+transaction values. </li> 
+</ul>
+
+</p> 
+
+
 <br>
 
 <p> <strong> N/B: </strong> When specifying the json object file above, leave the status field as <b> "view_funds" </b>. The reason for this is for the application to save the status when logging the transaction for every operation.
@@ -208,6 +220,19 @@ To fund a registered user account, access the following link using a <b> POST </
 
 ```
 
+<p> The following parameters could be explained in more details: 
+<ul>
+<li> The <b> email </b> : This is the email address of the user that wants to fund his account </li> 
+<li> The <b> password </b>: This is the password of the user that wants to fund his account </li> 
+<li> The <b> amount </b>: This is the amount for which the user want to fund his account with, <b> N/B: </b> the values here must be 
+integers or floating point numbers only, values with commas are not accepted by the program e.g 2,500 or N2,408 are not accepted </li> 
+<li> The <b> status </b>: This is the instruction given to the logging module telling it that the transaction in progress is a "fund_account" transaction.  
+And as such, this section should be left as it is for easy logging and saving the respective transaction values. 
+</li> 
+</ul>
+</p>
+
+
 <br>
 
 <p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "fund_account" </b>. The reason for this is for the logging function to log the transaction as a funding transaction. </p>
@@ -219,6 +244,8 @@ To fund a registered user account, access the following link using a <b> POST </
 <img src="./images/fund_account.png" alt="fund_account">
 
 <br> 
+
+
 
 ## Transfer Funds From One Account To Another 
 
@@ -247,9 +274,65 @@ Failure to specify the correct values would result in an error for the transacti
 
 ```
 
+
+<p> The following parameters could be explained in more details; 
+<ul>
+<li> The <b> sender_email </b>: This is the email address you are sending the money from. <b>N/B:</b> Funds leaves this account. </li> 
+<li> The <b> sender_password </b> : This is the password of the sender's account, and the values needs to be correct for a successful transaction. </li>
+<li> The <b> amount </b>: This is the amount the sender want to send from his account to the receiver/destination account. <b> N/B:</b> The values specified in this 
+section should be integers or floating point numbers. Numbers like 2,500 or N2,345 or $300.00 are not allowed. You can only specify values like e.g 3445, 45500 and so on. </li> 
+<li> The <b> destination_email </b>: This is the email address you are sending the money into. A point to take note is that the destination email address 
+must be registered on the application/server or it would result into an error. So ensure the destination email value is correct. </li> 
+<li> The <b> status </b>: This is the instruction given to the logging module telling it that the transaction in progress is a "transfer_funds" transaction. 
+And as such, this section should be left as it si for easy logging and saving the respective transaction. </li> 
+</ul>
+</p>  
+
 <br> 
 
-<p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "transfer_funds" </b>. The reason for this is for the loggin function to log the transaction as a transfer of funds transaction. </p> 
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "transfer_funds" </b>. The reason for this is for the loggin function to log the transaction as a transfer of funds transaction. </p>  <br> 
+
+### Click on the image below to see it clearly 
+<img src="./images/transfer_funds.png" alt="transfer_funds">
+
+<br>
+
+
+
+
+## Withdraw Fund From An Account 
+
+<br> 
+<p> 
+<b> POST REQUEST </b> url: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/withdraw-funds
+
+<br>
+
+<p>
+To withdraw funds from a specified account, you need to access the following link above on your <b> POSTMAN </b> or <b> CURL </b> using a <b> POST </b> request by specifying the followiing parameters in a json format. <br> 
+Also take note that you need to specify the correct values, e.g the password, and the correct email address for the account you want to withdraw funds from. <br> 
+
+Failure to specify the correct values would result in an error for the transaction. 
+</p> 
+
+```json 
+{
+    "email": "your-email-address", 
+    "password": "your-password", 
+    "amount": "the-amount-you-want-to-withdraw", 
+    "status": "withdraw_funds"
+}
+
+```
+
+<br> 
+
+<p> <strong> N/B: <strong> When specifying the json object file above, leave the <b> status </b> field as <b> "withdraw_funds" </b>. The reason for this is for the logging function to log the transaction as a withdraw of funds. </p> <br> 
+
+### Click on the image below to see it clearly 
+<img src="./images/withdraw_funds.png" alt="withdraw_funds">
+
+<br> 
 
 
 
