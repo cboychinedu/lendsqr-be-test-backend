@@ -419,6 +419,15 @@ $ node app.js
 
 ## Database (SQLite3) management(Preference) 
 <p> 
+<img src="./images/sql.png" > <br> 
+
+SQLite is a C-language library that implements a small, fast, self-contained high reliability full-featured <b>SQL</b> database engine. SQLite is the most used database engine in the world. SQLite is build into all mobile phones and most computers and comes bundled inside countless other applications that people use every day. <br> 
+
+The SQLite file format is <b> stable </b>, cross-platform, and backwards compatible and the developers pledge to keep it that way through the year 2050. <br> 
+<b> source </b>: <a href="https://www.sqlite.org/index.html"> link </a>
+
+SQLite was designed to allow the program to be operated without installing a database management system or requiring a database administrator. Unlike client–server database management systems, the SQLite engine has no standalone processes with which the application program communicates. 
+<b> source: </b>  <a href="https://en.wikipedia.org/wiki/SQLite"> link </a>
 
 </p> 
 
@@ -426,10 +435,19 @@ $ node app.js
 <br>
 
 ## Hosting The Application on Heroku 
-<p> 
 
+<p> From your terminal type the following to host this application on 
+heroku </p>
 
-</p>
+```shell
+
+$ heroku login
+$ heroku create 
+$ heroku rename <"app-new-name">
+$ git add .  
+$ git push heroku master 
+
+```
 
 
 <br>
@@ -444,9 +462,15 @@ $ node app.js
 <br>
 
 ## Help 
-<p> 
-
-</p> 
+<p>
+Contact me for references 
+<ul>
+    <li> <b> Email:</b> cmbonu@protonmail.com </li> 
+    <li> <b>Number:</b> +234-7081-528827 </li>
+    <li> <b> Number: </b> +234-9030-045587 </li> 
+</ul>
+</p>
+<br> 
 
 
 ## Authors 
