@@ -274,7 +274,6 @@ Failure to specify the correct values would result in an error for the transacti
 
 ```
 
-
 <p> The following parameters could be explained in more details; 
 <ul>
 <li> The <b> sender_email </b>: This is the email address you are sending the money from. <b>N/B:</b> Funds leaves this account. </li> 
@@ -325,9 +324,27 @@ Failure to specify the correct values would result in an error for the transacti
 
 ```
 
+
+<p>
+The following parameters could be explained in more details; 
+<ul>
+<li> The <b> email </b>: This is the email address you want to withdraw the funds from. Remember, the email must be a registered account on the 
+server, if not it could result into errors. </li>
+<li> The <b> password </b>: This is the password of the account </li> 
+<li> The <b> amount </b>: This is the amount the registered user wants to withdraw from his/her own account. Also take note that the values accepted for the 
+amount are integers, and floating point numbers. <b>N/B: </b> Numbers with commas, fullstop, and symbols are not accepted. </li> 
+<li> The <b> status </b>: This is the instruction given to the logging module/function telling it that the transaction in progress is a 
+"withdraw_funds" transaction. And as such, this section should be left as it is for easy logging and saving the respective transaction. </li> 
+
+</ul>
+
+</p>
+
+
+
 <br> 
 
-<p> <strong> N/B: <strong> When specifying the json object file above, leave the <b> status </b> field as <b> "withdraw_funds" </b>. The reason for this is for the logging function to log the transaction as a withdraw of funds. </p> <br> 
+<p> <strong> N/B: </strong> When specifying the json object file above, leave the <b> status </b> field as <b> "withdraw_funds" </b>. The reason for this is for the logging function to log the transaction as a withdraw of funds. </p> <br> 
 
 ### Click on the image below to see it clearly 
 <img src="./images/withdraw_funds.png" alt="withdraw_funds">
@@ -339,16 +356,63 @@ Failure to specify the correct values would result in an error for the transacti
 
 ## Download And Installation 
 <p> 
+To download this application and use, open a command prompt or terminal and clone a copy of this repo.
+
+</p>
+
+```bash 
+    $ git clone "https://github.com/cboychinedu/lendsqr-be-test-backend"
+```
+
+<p>
+ <br> 
+change directory or move into the folder and type the following commands on your command line. 
 
 </p> 
+
+```bash
+    $ npm install . 
+```
+
+<p>
+This command would install all the required dependencies in your working directory. 
+<b> N/B: </b> Edit the <b> app.js </b> file and change the <b> PORT </b> and <b> HOST </b>
+address to your own port and host address if need be, or run the application locally by using 
+"localhost" as HOST, and port 3001 as port number. 
+
+
+</p> 
+
+```javascript 
+
+    const PORT = process.env.PORT || 3001; 
+    const HOST = "localhost"; 
+
+```
 
 
 <br> 
 
 ## Running the application 
-<p> 
+<p>
+ To run the application, open a terminal in your working directory where the files are located, and in the root folder, type the commands below. 
+</p>
 
-</p> 
+
+```shell
+$ npm start  
+```
+
+<p> <b> OR </b> </p> 
+
+```shell 
+$ node app.js 
+```
+
+<p>
+ This would start the nodejs application running on "localhost", and port 3001.  
+
+</p>
 
 
 <br>
