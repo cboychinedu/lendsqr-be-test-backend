@@ -453,17 +453,124 @@ $ git push heroku master
 <br>
 
 ## Logging The Transactions And Errors 
+
 <p> 
+<ul>
+<li> <b> Error Log One </b>: this displays the amount, the sender email, destination email, 
+transfer funds status for a transaction that wasn't successful. 
 
-
+</li> 
+</ul>
 </p>
+
+### Click on the image to view this image below 
+
+<img src="./images/error_log1.png" >
+
+
+<p> 
+<ul>
+<li> <b> Error Log Two </b>: this displays the destination email address, the status of the transaction, and reason 
+for failure.  
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/error_log2.png" >
+
+
+<p> 
+<ul>
+<li> <b> General Log 1</b>: this displays the routes logged by the application, and the ip address that visited them. 
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/general_log1.png" >
+
+
+
+<p> 
+<ul>
+<li> <b> Log Folder </b>: this displays the folder where the log files are saved on the server.  
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/logsSection.png" >
+
+
+
+<p> 
+<ul>
+<li> <b> Success Log</b>: this displays the log for a successful transaction, with the amount, and the email address.  
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/success1.png" >
+
+
+<p> 
+<ul>
+<li> <b>Success Log</b>: this displays the log for a successful transaction, with the amount, and the status of the 
+transaction. N/B: The need for the status section.  
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/success2.png" >
+
+
+<p> 
+<ul>
+<li> <b> Success Log</b>: this displays the log for a successful transaction, with the service and status for the funds, here the transaction was for funds being withdrawn.   
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/success3.png" >
+
+
+<p> 
+<ul>
+<li> <b> Time Log </b>: this displays the log for the time the transaction took place, and was stored on the 
+database.  
+
+</li> 
+</ul>
+</p>
+
+### Click on the image to view this image below 
+
+<img src="./images/success3.png" >
+
 
 
 <br>
 
 ## Help 
 <p>
-Contact me for references 
+Contact me for references and additional information. 
+
 <ul>
     <li> <b> Email:</b> cmbonu@protonmail.com </li> 
     <li> <b>Number:</b> +234-7081-528827 </li>
