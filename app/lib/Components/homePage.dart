@@ -4,6 +4,7 @@ import "dart:convert";
 import 'package:app/Routes/routes.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/material.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 // Creating the login stateful widget
 class HomePage extends StatefulWidget {
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-Future<Map> getJson() async {
+Future<Map> loginUser(email, password) async {
   http.Response response = await http.post(
     Uri.parse(
         'https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/get-funds'),
@@ -22,8 +23,8 @@ Future<Map> getJson() async {
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      "email": "cboy.chinedu@gmail.com",
-      "password": "12345",
+      "email": email,
+      "password": password,
       "status": "view_funds",
     }),
   );
@@ -34,24 +35,57 @@ Future<Map> getJson() async {
 // Creating the loginPageState widget
 class HomePageState extends State<HomePage> {
   // Creating controllers for the login forms
-  final TextEditingController _username = TextEditingController();
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   // Creating a function for handing the submit function
   Future<void> handleSubmit() async {
-    //
-    print("Submit Button Pressed");
+    // Obtain the shared preferences
+    SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    //
-    String username = _username.text.toString();
-    String password = _password.text.toString();
+    // Checking if the username, and password is not empty
+    if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
+      // Getting the user username, and password
+      String email = _email.text.toString();
+      String password = _password.text.toString();
 
-    // Sending the data to the server.
-    Map data = await getJson();
-    print(data["status"]);
+      // Sending the data to the server
+      Map data = await loginUser(email, password);
 
-    print(username);
-    print(password);
+      // Navigating the user to the home screen
+      if (data["status"] == "success") {
+        // Execute this block of code if the user values are correct
+        preferences.setString("username", email);
+        preferences.setString("password", password);
+
+        // Navigate the user to the UserHome page
+        Navigator.of(context).pushNamed(RouteManager.userHome);
+      } else {
+        // If the user login values are not correct
+        // Create a snackbar
+        const snackBar = SnackBar(content: Text("Incorrect email or password"));
+
+        // Displaying the snackbar
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+
+      // Saving the preferences
+      // await prefs.setString("username", email);
+      // await prefs.setString("password", password);
+
+      // String? value = preferences.getString("password");
+      // print(value);
+    }
+
+    // else
+    else {
+      // Creating a snack bar
+      const snackBar = SnackBar(content: Text("Forms not filled!"));
+
+      // Showing the snackbar
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   // Creating a function for handling the register function
@@ -108,11 +142,11 @@ class HomePageState extends State<HomePage> {
             width: 300.0,
             // padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
             child: TextField(
-              controller: _username,
+              controller: _email,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 icon: Icon(Icons.person),
-                labelText: "Phone, email or username",
+                labelText: "Enter your email",
               ),
             ),
           ),
@@ -126,7 +160,7 @@ class HomePageState extends State<HomePage> {
                 controller: _password,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Password",
+                    labelText: "Enter your password",
                     icon: Icon(Icons.lock)),
                 obscureText: true,
               )),
