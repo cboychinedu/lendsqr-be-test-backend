@@ -23,7 +23,13 @@ API LINK: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/
 
 <p align="center"><img src="./images/banking_api.jpg" /></p>
 
+<p align="center">
+<img src="./images/mobile-app.gif" />
+</p>
+
 ## Description 
+
+
 
 <p> 
 At <b> Lendsqr </b>, many of our lenders use our mobile apps to reach over half a million customers. 

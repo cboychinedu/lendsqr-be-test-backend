@@ -13,6 +13,7 @@ class SendFunds extends StatefulWidget {
   State<SendFunds> createState() => _SendFundsState();
 }
 
+// Creating a function for viewing the funds
 Future<Map> _ViewFunds(email, password) async {
   http.Response response = await http.post(
     Uri.parse(
@@ -31,8 +32,75 @@ Future<Map> _ViewFunds(email, password) async {
   return json.decode(response.body);
 }
 
+// Creating a function for sending/transferring funds "status": "transfer_funds"
+Future<Map> Transferfunds(
+    senderEmail, senderPassword, amount, destinationEmail) async {
+  http.Response response = await http.post(
+    Uri.parse(
+        'https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/transfer-funds'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      "sender_email": senderEmail,
+      "sender_password": senderPassword,
+      "amount": amount,
+      "destination_email": destinationEmail,
+      "status": "transfer_funds",
+    }),
+  );
+
+  // Returning the json object
+  return json.decode(response.body);
+}
+
 // Creaging the
 class _SendFundsState extends State<SendFunds> {
+  // Creating the controllers for the amount and the email
+  final TextEditingController _destinationemailAddress =
+      TextEditingController();
+  final TextEditingController _amount = TextEditingController();
+
+  // Creating a function for transferring the function
+  Future<void> handleTransfer() async {
+    // Obtain the shared preferences
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    // Getting the user login username, and password
+    String? emailValue = preferences.getString("username");
+    String? passwordValue = preferences.getString("password");
+
+    // Transfering the funds
+    if (_destinationemailAddress.text.isNotEmpty && _amount.text.isNotEmpty) {
+      // Getting the destination email, and password
+      String amount = _amount.text.toString();
+      String destinationEmailAddress = _destinationemailAddress.text.toString();
+
+      // Sending the data to the server
+      Map data = await Transferfunds(
+          emailValue, passwordValue, amount, destinationEmailAddress);
+
+      print(data);
+      // Checking the success message
+      if (data["status"] == "success") {
+        // Creating a snack bar
+        const snackBar = SnackBar(content: Text("Transfer successful"));
+
+        // Showing the snackbar
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (data["status"] == "error") {
+        // Creating a snack bar
+        const snackBar = SnackBar(content: Text("Destination email not found"));
+
+        // Showing the snackbar
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+      //{status: success, message: Transfer successful, amountSent: 0.4546}
+
+    }
+  }
+
+  // Creating the handle function
   void handleFunds() async {
     // Obtain the shared preferences
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -68,6 +136,7 @@ class _SendFundsState extends State<SendFunds> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Send Money"),
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xff060606),
         ),
         body: Container(
@@ -116,7 +185,7 @@ class _SendFundsState extends State<SendFunds> {
                   child: Stack(children: [
                     Container(
                         child: TextField(
-                      controller: null,
+                      controller: _destinationemailAddress,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Users email address",
@@ -136,7 +205,7 @@ class _SendFundsState extends State<SendFunds> {
                     margin: const EdgeInsets.only(top: 15.0, right: 199.0),
                     width: 100.0,
                     child: TextField(
-                      controller: null,
+                      controller: _amount,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -146,16 +215,33 @@ class _SendFundsState extends State<SendFunds> {
 
                 // Adding the Sign in button
                 Container(
-                    alignment: Alignment.topLeft,
-                    margin: const EdgeInsets.only(top: 10.0, left: 40.0),
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 10.0, right: 70.0),
                     child: SizedBox(
                       height: 50.0,
                       width: 230.0,
                       child: ElevatedButton(
-                        onPressed: null,
+                        onPressed: handleTransfer,
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black),
                         child: const Text("Send Funds"),
+                      ),
+                    )),
+
+                // Adding the Sign in button
+                Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 10.0, right: 70.0),
+                    child: SizedBox(
+                      height: 50.0,
+                      width: 230.0,
+                      child: ElevatedButton(
+                        onPressed: () => {
+                          Navigator.of(context).pushNamed(RouteManager.userHome)
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black),
+                        child: const Text("Back"),
                       ),
                     )),
               ],
