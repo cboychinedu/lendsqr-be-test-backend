@@ -39,7 +39,7 @@ router.get("/download-logs", loggingRequest, async (req, res) => {
 // Creating the route for downloading the mobile application 
 router.get("/download", loggingRequest, async (req, res) => {
     // Getting the path to the android apk file 
-    let full_path = path.join(root_path, 'mobileApp', "mydb.db"); 
+    let full_path = path.join(root_path, 'mobileApp', "mobile-app.apk"); 
 
 
     // Rendering the mobile application
