@@ -20,6 +20,8 @@
 
 API LINK: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/
 
+<b> Mobile Application Link: </b> <a href="https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/download"> link </a>
+
 
 <p align="center"><img src="./images/banking_api.jpg" /></p>
 
