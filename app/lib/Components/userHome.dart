@@ -64,6 +64,23 @@ class UserHomeState extends State<UserHome> {
     Navigator.of(context).pushNamed(RouteManager.sendFunds);
   }
 
+  // Navigate the user to the widhraw page route
+  void WithdrawRoute() {
+    // When the user button is clicked, navigate the user to the withdraw route
+    Navigator.of(context).pushNamed(RouteManager.withdrawFunds);
+  }
+
+  // Creating a function for navigating the users
+  void BottomNavigation(value) {
+    if (value == 0) {
+      // Navigate the user to the menu page
+      Navigator.of(context).pushNamed(RouteManager.userHome);
+    } else if (value == 1) {
+      // Navigate the user to the sendfunds page
+      Navigator.of(context).pushNamed(RouteManager.sendFunds);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -170,15 +187,28 @@ class UserHomeState extends State<UserHome> {
                         height: 55.0,
                         width: 259.0,
                         child: ElevatedButton(
-                          onPressed: () => print("Search user"),
+                          onPressed: WithdrawRoute,
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: const Color(0xff1F5BD0)),
-                          child: const Text("Search User"),
+                          child: const Text("Withdraw Funds"),
                         ))),
               ],
             ),
           ),
+
+          // Adding the bottom navigation bar
+          bottomNavigationBar: BottomNavigationBar(
+              onTap: (value) => BottomNavigation(value),
+              backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.account_box), label: "Profile"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.send_sharp), label: "Send Money"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings), label: "Settings")
+              ]),
         ));
   }
 }

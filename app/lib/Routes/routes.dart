@@ -4,6 +4,7 @@ import '../Components/homePage.dart';
 import '../Components/register.dart';
 import '../Components/userHome.dart';
 import '../Components/sendFunds.dart';
+import '../Components/withdrawFunds.dart';
 
 // Creating the route class
 class RouteManager {
@@ -11,6 +12,7 @@ class RouteManager {
   static const String register = "/register";
   static const String userHome = "/userHome";
   static const String sendFunds = "/sendFunds";
+  static const String withdrawFunds = "/withdrawFunds";
 
   // Setting the route configurations
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -38,6 +40,11 @@ class RouteManager {
           builder: (context) => SendFunds(),
         );
         break;
+
+      case withdrawFunds:
+        return MaterialPageRoute(
+          builder: (context) => WithdrawFundsPage(),
+        );
 
       default:
         throw const FormatException("Route not found, check route again!");

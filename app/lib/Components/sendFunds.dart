@@ -61,6 +61,17 @@ class _SendFundsState extends State<SendFunds> {
       TextEditingController();
   final TextEditingController _amount = TextEditingController();
 
+  // Creating a function for navigating the users
+  void BottomNavigation(value) {
+    if (value == 0) {
+      // Navigate the user to the menu page
+      Navigator.of(context).pushNamed(RouteManager.userHome);
+    } else if (value == 1) {
+      // Navigate the user to the sendfunds page
+      Navigator.of(context).pushNamed(RouteManager.sendFunds);
+    }
+  }
+
   // Creating a function for transferring the function
   Future<void> handleTransfer() async {
     // Obtain the shared preferences
@@ -134,117 +145,130 @@ class _SendFundsState extends State<SendFunds> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Send Money"),
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xff060606),
-        ),
-        body: Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: <Widget>[
-                Container(
+      appBar: AppBar(
+        title: const Text("Send Money"),
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xff060606),
+      ),
+      body: Container(
+          alignment: Alignment.center,
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                height: 200.0,
+                width: 300,
+                padding: const EdgeInsets.only(top: 20.0, left: 20.0),
+                margin:
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 2,
+                        color: const Color.fromARGB(255, 237, 219, 218)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        "Account Information",
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        const Text("Account Balance: ",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Container(
+                            margin: const EdgeInsets.only(left: 50.0),
+                            child: Text("NGN$_accountBalance")),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 30.0, left: 0.0),
+                width: 300.0,
+                child: Stack(children: [
+                  Container(
+                      child: TextField(
+                    controller: _destinationemailAddress,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Users email address",
+                    ),
+                  )),
+                  Container(
+                    alignment: Alignment.topRight,
+                    padding: const EdgeInsets.only(top: 15.0, right: 10.0),
+                    child: Icon(Icons.search),
+                  )
+                ]),
+              ),
+
+              // User amount
+              Container(
                   alignment: Alignment.topLeft,
-                  height: 200.0,
-                  width: 300,
-                  padding: const EdgeInsets.only(top: 20.0, left: 20.0),
-                  margin:
-                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 2,
-                          color: const Color.fromARGB(255, 237, 219, 218)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          "Account Information",
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Text("Account Balance: ",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Container(
-                              margin: const EdgeInsets.only(left: 50.0),
-                              child: Text("NGN$_accountBalance")),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 30.0, left: 0.0),
-                  width: 300.0,
-                  child: Stack(children: [
-                    Container(
-                        child: TextField(
-                      controller: _destinationemailAddress,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Users email address",
-                      ),
-                    )),
-                    Container(
-                      alignment: Alignment.topRight,
-                      padding: const EdgeInsets.only(top: 15.0, right: 10.0),
-                      child: Icon(Icons.search),
-                    )
-                  ]),
-                ),
+                  margin: const EdgeInsets.only(top: 15.0, right: 199.0),
+                  width: 100.0,
+                  child: TextField(
+                    controller: _amount,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Amount",
+                    ),
+                  )),
 
-                // User amount
-                Container(
-                    alignment: Alignment.topLeft,
-                    margin: const EdgeInsets.only(top: 15.0, right: 199.0),
-                    width: 100.0,
-                    child: TextField(
-                      controller: _amount,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Amount",
-                      ),
-                    )),
+              // Adding the Sign in button
+              Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(top: 10.0, right: 70.0),
+                  child: SizedBox(
+                    height: 50.0,
+                    width: 230.0,
+                    child: ElevatedButton(
+                      onPressed: handleTransfer,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black),
+                      child: const Text("Send Funds"),
+                    ),
+                  )),
 
-                // Adding the Sign in button
-                Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 10.0, right: 70.0),
-                    child: SizedBox(
-                      height: 50.0,
-                      width: 230.0,
-                      child: ElevatedButton(
-                        onPressed: handleTransfer,
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black),
-                        child: const Text("Send Funds"),
-                      ),
-                    )),
+              // Adding the Sign in button
+              Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(top: 10.0, right: 70.0),
+                  child: SizedBox(
+                    height: 50.0,
+                    width: 230.0,
+                    child: ElevatedButton(
+                      onPressed: () => {
+                        Navigator.of(context).pushNamed(RouteManager.userHome)
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black),
+                      child: const Text("Back"),
+                    ),
+                  )),
+            ],
+          )),
 
-                // Adding the Sign in button
-                Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 10.0, right: 70.0),
-                    child: SizedBox(
-                      height: 50.0,
-                      width: 230.0,
-                      child: ElevatedButton(
-                        onPressed: () => {
-                          Navigator.of(context).pushNamed(RouteManager.userHome)
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black),
-                        child: const Text("Back"),
-                      ),
-                    )),
-              ],
-            )));
+      // Adding the bottom navigation bar
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: (value) => BottomNavigation(value),
+          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_box), label: "Profile"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.send_sharp), label: "Send Money"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "Settings")
+          ]),
+    );
   }
 }
