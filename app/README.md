@@ -1,6 +1,6 @@
 # Lendsql Mobile App 
 
-<b> Download Link: </b> <a href="www.google.com"> link </a>
+<b> Download Link: </b> <a href="https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/download"> link </a>
 <p>
 This is the mobile application section. Below are the images for the respective routes. 
 </p>
