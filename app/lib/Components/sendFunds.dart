@@ -54,7 +54,7 @@ Future<Map> Transferfunds(
   return json.decode(response.body);
 }
 
-// Creaging the
+// Creating the
 class _SendFundsState extends State<SendFunds> {
   // Creating the controllers for the amount and the email
   final TextEditingController _destinationemailAddress =
@@ -91,7 +91,6 @@ class _SendFundsState extends State<SendFunds> {
       Map data = await Transferfunds(
           emailValue, passwordValue, amount, destinationEmailAddress);
 
-      print(data);
       // Checking the success message
       if (data["status"] == "success") {
         // Creating a snack bar
@@ -105,9 +104,21 @@ class _SendFundsState extends State<SendFunds> {
 
         // Showing the snackbar
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (data["status"] == "error") {
+        // Create a snackbar for the error message
+        const snackBar = SnackBar(content: Text("Error in transaction!"));
+
+        // Displaying the snackbar
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       //{status: success, message: Transfer successful, amountSent: 0.4546}
 
+    } else {
+      // IF the form is empty
+      const snackBar = SnackBar(content: Text("Form Empty"));
+
+      // Displaying the snackbar
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

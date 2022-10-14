@@ -81,6 +81,12 @@ class UserHomeState extends State<UserHome> {
     }
   }
 
+  // Logout
+  void Logout() {
+    // Navigate the user to the signin page
+    Navigator.of(context).pushNamed(RouteManager.homePage);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -192,6 +198,23 @@ class UserHomeState extends State<UserHome> {
                               foregroundColor: Colors.white,
                               backgroundColor: const Color(0xff1F5BD0)),
                           child: const Text("Withdraw Funds"),
+                        ))),
+
+                Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    alignment: Alignment.topLeft,
+                    margin: const EdgeInsets.only(top: 20.0, left: 70.0),
+                    child: SizedBox(
+                        height: 55.0,
+                        width: 259.0,
+                        child: ElevatedButton(
+                          onPressed: Logout,
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 187, 69, 14)),
+                          child: const Text("Logout"),
                         ))),
               ],
             ),
