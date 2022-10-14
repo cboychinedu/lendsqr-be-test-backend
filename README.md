@@ -46,6 +46,7 @@ The tech stack used to build this application compromises of the following:
     <li> Nodejs </li> 
     <li> sqlite3 </li> 
     <li> morgan </li> 
+    <li> Jsonweb token (JWT) </li>
     <li> expressjs </li> 
 </ul>
 
@@ -155,6 +156,46 @@ when specifying other parameters </p>
 
 
 <br> <br>
+
+## Login Into The App 
+
+<br> 
+<p> 
+<b> POST REQUEST</b> url: https://mbonu-chinedum-lendsqr-be-test.herokuapp.com/api/signin
+
+<br> 
+
+To be able signin into the application, access the following link above using a <b> POST </b> HTTP request on your <b> POSTMAN </b>. Then specify the following parameter in a json object format which includes: <br>
+
+</p>
+
+```json 
+{
+    "email": "your-registered-email", 
+    "password": "your-password"
+}
+
+```
+
+<p> 
+The following parameters could be explained in more details below: 
+<ul>
+<li> The <b> email </b>: This is the email address you used to register on the register route </li> 
+<li> The <b> password </b>: This is the password of the user | the passwod you used during registration </li> 
+
+</ul>
+
+<b> N/B: </b> Take note that the returned json object gives you a <b> token </b> value which could be used for 
+further authentication purposes. 
+
+</p>
+
+### Click the image below to see it clearly  
+
+<img src="./images/login-token.png">
+
+
+<br> 
 
 ## View User Funds 
 
