@@ -24,10 +24,10 @@ app.set("view engine", "ejs");
 app.set("views", "./views"); 
 
 // Setting the static ip address and port 
-const PORT = process.env.PORT || 3001; 
-const HOST = "localhost"; 
-// const PORT = process.env.PORT; 
-// const HOST = process.env.HOST || "0.0.0.0"; 
+// const PORT = process.env.PORT || 3001; 
+// const HOST = "localhost"; 
+const PORT = process.env.PORT; 
+const HOST = process.env.HOST || "0.0.0.0"; 
 
 // Importing the required routes 
 const usersRoute = require("./routes/usersRoute"); 
