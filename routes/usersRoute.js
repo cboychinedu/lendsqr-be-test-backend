@@ -27,6 +27,25 @@ router.get("/", (req, res) => {
 
 })
 
+// Creating a route for downloading the logs 
+router.get("/download-logs", loggingRequest, async (req, res) => {
+    // Getting the path to the genral log file 
+    let full_path = path.join(root_path, 'logs', 'GeneralLog.log'); 
+
+    // Rendering the log file 
+    return res.download(full_path); 
+})
+
+// Creating the route for downloading the mobile application 
+router.get("/download", loggingRequest, async (req, res) => {
+    // Getting the path to the android apk file 
+    let full_path = path.join(root_path, 'mobileApp', "mydb.db"); 
+
+
+    // Rendering the mobile application
+    return res.download(full_path); 
+})
+
 // Creating the route for registering users
 router.post("/register", loggingRequest, async (req, res) => {
     // Getting the user email
