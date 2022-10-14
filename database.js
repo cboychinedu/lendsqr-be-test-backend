@@ -6,6 +6,9 @@ const winston = require("winston");
 // Getting the base path "rootpath" 
 let root_path = path.join(__dirname); 
 
+// Setting the token password 
+const tokenPassword = process.env.token_pass || "54346512#9^&$#%#@_*+=</<.)_+^$#!!";
+
 // Creating a function for getting the date
 const dateTimeStamp = () => {
     // Execute this block of code to get the dateTimeStampValues
@@ -168,6 +171,7 @@ let db = new sqlite3.Database("mydb.db", (error) => {
 // Exporting the database 
 module.exports.root_path = root_path; 
 module.exports.db = db; 
+module.exports.tokenPassword = tokenPassword; 
 module.exports.errorLogger = errorLogger; 
 module.exports.loggingRequest = loggingRequest; 
 module.exports.successfulTransaction = successfulTransaction; 
